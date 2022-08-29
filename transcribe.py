@@ -18,23 +18,24 @@ BLOCK_LENGTH = 45
 # RESAMPLED_FOLDER = "C:/Users/frost/OneDrive/Documents/audiorecorder/Resampled_Folder/"
 # AUDIO_REPORT_FOLDER = "C:/Users/frost/OneDrive/Documents/audiorecorder/Audio_Report/"
 
-BASE_PATH = str(Path().absolute()).replace("\\", "/") + "/"
-# BASE_PATH = str(Path().absolute()) + "\\"
+TRANSCRIBE = Path("transcribe/")
+# TRANSCRIBE_PATH = str(TRANSCRIBE.absolute()).replace("\\", "/") + "/"
+BASE_PATH = str(TRANSCRIBE.absolute()) + "\\"
 
 CONVERTED = Path("converted/")
 CONVERTED.mkdir(parents=True, exist_ok=True)
-CONVERTED_AUDIO_PATH = str(CONVERTED.absolute()).replace("\\", "/") + "/"
-# CONVERTED_AUDIO_PATH = str(CONVERTED.absolute()) + "\\"
+# CONVERTED_AUDIO_PATH = str(CONVERTED.absolute()).replace("\\", "/") + "/"
+CONVERTED_AUDIO_PATH = str(CONVERTED.absolute()) + "\\"
 
 RESAMPLED = Path("resampled/")
 RESAMPLED.mkdir(parents=True, exist_ok=True)
-RESAMPLED_FOLDER = str(RESAMPLED.absolute().replace("\\", "/")) + "/"
-# RESAMPLED_FOLDER = str(RESAMPLED.absolute()) + "\\"
+# RESAMPLED_FOLDER = str(RESAMPLED.absolute().replace("\\", "/")) + "/"
+RESAMPLED_FOLDER = str(RESAMPLED.absolute()) + "\\"
 
 REPORT = Path("report/")
 REPORT.mkdir(parents=True, exist_ok=True)
-AUDIO_REPORT_FOLDER = str(REPORT.absolute()).replace("\\", "/") + "/"
-# AUDIO_REPORT_FOLDER = str(REPORT.absolute()) + "\\"
+# AUDIO_REPORT_FOLDER = str(REPORT.absolute()).replace("\\", "/") + "/"
+AUDIO_REPORT_FOLDER = str(REPORT.absolute()) + "\\"
 
 # BASE_PATH = "C:/Users/Devin/Videos/wav2/audio/"
 # CONVERTED_AUDIO_PATH = "C:/Users/Devin/Videos/wav2/pathconverted/"
@@ -119,4 +120,7 @@ def speech_to_text():
     return transcript
 
 if __name__ == "__main__":
-    print(speech_to_text())
+    if(len(os.listdir(BASE_PATH)) == 0):
+        print(f"No files in {BASE_PATH}")
+    else:
+        print(speech_to_text())
