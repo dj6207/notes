@@ -50,17 +50,18 @@ MODEL = Wav2Vec2ForCTC.from_pretrained("facebook/wav2vec2-large-960h-lv60-self")
 def preprocessing(base_path, converted_audio_path):
     for file in os.listdir(base_path):
         file_name, file_extension = os.path.splitext(file)
-        print("\nFile name: " + file)
+        print(f"\nFile name: {file}")
         if file_extension == ".wav":
             shutil.copy(base_path + file, converted_audio_path + file)
         elif file_extension in EXTENSIONS_TO_CONVERT:
             subprocess.call(['ffmpeg', '-i', base_path + file, base_path + file_name + ".wav"])
             shutil.move(base_path + file_name + ".wav", converted_audio_path + file_name + ".wav")
-            print(file + " is converted into " + file_name +".wav")
+            print(f"{file} is converted into {file_name}.wav")
         else:
             print("ERROR: Unsupported file type")
 
 def resample(file, sample_rate): 
+    print(f"Resampling: {file}")
     path = CONVERTED_AUDIO_PATH + file
     audio, sr = librosa.load(path, sr=sample_rate) 
     length = librosa.get_duration(audio, sr=sr)
@@ -75,19 +76,16 @@ def asr_transcript(processor, model, resampled_path, length, block_length):
         chunks += 1
     transcript = ""   
     stream = librosa.stream(resampled_path, block_length=block_length, frame_length=16000, hop_length=16000)
-    print ('Every chunk is ',block_length,'sec. long')
-    print("Number of chunks",int(chunks))
+    print (f"Every chunk is {block_length} seconds long")
+    print(f"Number of chunks {int(chunks)}")
     for n, speech in enumerate(stream):
         current_time = datetime.datetime.now()
         time_elapsed = current_time - start_time
         print(f"Time Elapsed: {time_elapsed}")
-        print ("Transcribing the chunk number " + str(n+1))
+        print (f"Transcribing the chunk number {n + 1}")
         separator = '\n'
-        # separator = ' '
-        # if n % 2 == 0:
-        #     separator = '\n'
         transcript += generate_transcription(speech, processor, model) + separator
-    print("Encoding complete. Total number of chunks: " + str(n+1) + "\n")
+    print(f"Encoding complete. Total number of chunks: {n+1}\n")
     return transcript
 
 def generate_transcription(speech, processor, model):
@@ -109,7 +107,7 @@ def generate_textfile(transcript, audio_report_folder, file, length):
     text = open(filepath + ".txt","w")
     text.write(report)
     text.close()
-    print("\nReport stored at " + filepath + ".txt")
+    print(f"\nReport stored at {filepath}.txt")
 
 def speech_to_text():
     preprocessing(BASE_PATH, CONVERTED_AUDIO_PATH)
