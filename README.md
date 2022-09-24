@@ -21,11 +21,12 @@ python client.py
 ```
 
 Transcribe audio to text
-'''shell script
+```shell script
 python transcribe.py
 ```
 
 # Commands
+
 Record: Starts recording
 
 Stop: Stops recording
