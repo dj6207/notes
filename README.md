@@ -22,7 +22,7 @@ python client.py
 
 Transcribe audio to text
 '''shell script
-
+python transcribe.py
 ```
 
 # Commands
