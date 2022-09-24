@@ -26,7 +26,6 @@ python transcribe.py
 ```
 
 # Commands
-
 Record: Starts recording
 
 Stop: Stops recording
